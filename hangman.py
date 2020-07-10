@@ -9,22 +9,42 @@ num = len(random_choice)
 dashes = "-" * num
 dash_list = list(dashes)
 
-hidden_word = random_choice[:3:] + dashes
-
 print("H A N G M A N\n")
 
-tries = 0
-while tries < 8:
-    print("".join(dash_list))
+chosen_letter = set()
+tries = 8
+while tries > 0:
+    answer_so_far = "".join(dash_list)
+
+    print(answer_so_far)
+    if answer_so_far == random_choice:
+        print("You guessed the word")
+        print("You survived!")
+        break
+
     letter = input("Input a letter: ")
     if letter in random_choice:
-        for i in range(0, num):
-            if random_choice[i] == letter:
-                dash_list[i] = random_choice[i]
-        print()
-    else:
-        print("No such letter in the word\n")
-    tries += 1
+        if letter not in chosen_letter:
+            print()
+            for i in range(0, num):
+                if random_choice[i] == letter:
+                    dash_list[i] = random_choice[i]
+                    chosen_letter.add(letter)
 
-print("Thanks for playing!")
-print("We'll see how well you did in the next stage")
+        else:
+            print("No improvements")
+            tries -= 1
+            if tries == 0:
+                print("You are hanged!")
+            else:
+                print()
+
+    else:
+        print("No such letter in the word")
+        tries -= 1
+        if tries == 0:
+            print("You are hanged!")
+        else:
+            print()
+
+
